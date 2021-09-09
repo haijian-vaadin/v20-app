@@ -4,6 +4,7 @@ import { customElement, html, PropertyValues } from 'lit-element';
 import { View } from '../../views/view';
 import '@vaadin/vaadin-text-field';
 import { PersonEndpoint } from 'Frontend/generated/PersonEndpoint';
+import Person from 'Frontend/generated/com/example/application/Person';
 
 @customElement('about-view')
 export class AboutView extends View {
@@ -17,7 +18,7 @@ export class AboutView extends View {
 
   protected async firstUpdated(_changedProperties: PropertyValues) {
     super.firstUpdated(_changedProperties);
-    this.binder.read(await PersonEndpoint.getPerson());
+    this.binder.read(<Person>await PersonEndpoint.getPerson());
     console.log(this.binder.value);
   }
   async connectedCallback() {

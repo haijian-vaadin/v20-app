@@ -3,7 +3,7 @@ package com.example.application;
 import java.util.Random;
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import com.vaadin.flow.server.connect.Endpoint;
+import com.vaadin.fusion.Endpoint;
 
 @Endpoint
 @AnonymousAllowed
