@@ -1,20 +1,26 @@
-import { customElement, html } from 'lit-element';
+import { Binder, field } from 'Frontend/../target/flow-frontend/form';
+import PersonModel from 'Frontend/generated/com/example/application/PersonModel';
+import { customElement, html, PropertyValues } from 'lit-element';
 import { View } from '../../views/view';
+import '@vaadin/vaadin-text-field';
+import { PersonEndpoint } from 'Frontend/generated/PersonEndpoint';
 
 @customElement('about-view')
 export class AboutView extends View {
+  private binder = new Binder(this, PersonModel);
   render() {
-    return html`<div
-        class="box-border"
-        style="padding-top: 34px; width: 176px;height:176px;border-radius:100px;background: var(--lumo-shade-10pct)"
-      >
-        <img style="width: 150px;" src="images/empty-plant.png" />
-      </div>
-      <h2>This place intentionally left empty</h2>
-      <p>It’s a place where you can grow your own UI 🤗</p>`;
+    return html`
+      <vaadin-text-field ...="${field(this.binder.model.firstName)}" label="First Name:"></vaadin-text-field>
+      <vaadin-text-field ...="${field(this.binder.model.lastName)}" label="Last Name:"></vaadin-text-field>
+      `;
   }
 
-  connectedCallback() {
+  protected async firstUpdated(_changedProperties: PropertyValues) {
+    super.firstUpdated(_changedProperties);
+    this.binder.read(await PersonEndpoint.getPerson());
+    console.log(this.binder.value);
+  }
+  async connectedCallback() {
     super.connectedCallback();
     this.classList.add(
       'flex',
